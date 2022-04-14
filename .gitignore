@@ -1,0 +1,9 @@
+.DS_Store
+
+*.buildv*
+*.products/
+.wx
+
+deps/angle
+deps/depot_tools
+deps/sdl

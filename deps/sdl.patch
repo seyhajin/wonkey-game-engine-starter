@@ -1,0 +1,23 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9ee7ba16c..b8366f0a1 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -450,6 +450,7 @@ option_string(SDL_FOREGROUNDING_SIGNAL "number to use for magic foregrounding si
+ set_option(SDL_HIDAPI_JOYSTICK     "Use HIDAPI for low level joystick drivers" ON)
+ set_option(SDL_VIRTUAL_JOYSTICK    "Enable the virtual-joystick driver" ON)
+ set_option(SDL_ASAN                "Use AddressSanitizer to detect memory errors" OFF)
++set_option(SDL_ANGLE_STATIC        "Use ANGLE static library instead of dynamic linking" OFF)
+ 
+ set(SDL_SHARED ${SDL_SHARED_ENABLED_BY_DEFAULT} CACHE BOOL "Build a shared version of the library")
+ set(SDL_STATIC ${SDL_STATIC_ENABLED_BY_DEFAULT} CACHE BOOL "Build a static version of the library")
+@@ -511,6 +512,10 @@ if(NOT SDL_FOREGROUNDING_SIGNAL STREQUAL "OFF")
+   target_compile_definitions(sdl-build-options INTERFACE "-DSDL_FOREGROUNDING_SIGNAL=${SDL_FOREGROUNDING_SIGNAL}")
+ endif()
+ 
++if(NOT SDL_ANGLE_STATIC STREQUAL "OFF")
++  target_compile_definitions(sdl-build-options INTERFACE "-DSDL_VIDEO_STATIC_ANGLE")
++endif()
++
+ # Compiler option evaluation
+ if(USE_GCC OR USE_CLANG)
+   # Check for -Wall first, so later things can override pieces of it.

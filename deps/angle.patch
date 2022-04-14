@@ -1,0 +1,44 @@
+diff --git a/BUILD.gn b/BUILD.gn
+index 1f7120fadb..f0e5f29bac 100644
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -1337,6 +1337,8 @@ angle_shared_library("libEGL") {
+ }
+ 
+ angle_static_library("libEGL_static") {
++  complete_static_lib = true
++  suppressed_configs += [ "//build/config/compiler:thin_archive" ]
+   sources = libegl_sources
+   configs += [
+     ":debug_annotations_config",
+diff --git a/src/compiler/translator/tree_ops/vulkan/EarlyFragmentTestsOptimization.cpp b/src/compiler/translator/tree_ops/vulkan/EarlyFragmentTestsOptimization.cpp
+index 485f182d79..236e75478b 100644
+--- a/src/compiler/translator/tree_ops/vulkan/EarlyFragmentTestsOptimization.cpp
++++ b/src/compiler/translator/tree_ops/vulkan/EarlyFragmentTestsOptimization.cpp
+@@ -64,6 +64,7 @@ bool CheckEFTOptimizationTraverser::visitBranch(Visit visit, TIntermBranch *node
+ 
+ }  // namespace
+ 
++#ifdef ANGLE_ENABLE_VULKAN
+ bool CheckEarlyFragmentTestsFeasible(TCompiler *compiler, TIntermNode *root)
+ {
+     CheckEFTOptimizationTraverser traverser;
+@@ -75,5 +76,6 @@ bool CheckEarlyFragmentTestsFeasible(TCompiler *compiler, TIntermNode *root)
+     }
+     return true;
+ }
++#endif
+ 
+ }  // namespace sh
+diff --git a/src/compiler/translator/tree_ops/vulkan/EarlyFragmentTestsOptimization.h b/src/compiler/translator/tree_ops/vulkan/EarlyFragmentTestsOptimization.h
+index 1d6a0b4b46..a588d6a0cb 100644
+--- a/src/compiler/translator/tree_ops/vulkan/EarlyFragmentTestsOptimization.h
++++ b/src/compiler/translator/tree_ops/vulkan/EarlyFragmentTestsOptimization.h
+@@ -11,6 +11,7 @@
+ #define COMPILER_TRANSLATOR_TREEOPS_VULKAN_EARLYFRAGMENTTESTSOPTIMIZATION_H_
+ 
+ #include "common/angleutils.h"
++#include "common/debug.h"
+ 
+ namespace sh
+ {

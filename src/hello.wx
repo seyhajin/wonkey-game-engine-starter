@@ -1,0 +1,236 @@
+namespace meteor
+
+#import "<libc>"
+#import "<std>"
+#import "../native/sdl"
+#import "../native/angle"
+
+using std.memory..
+using sdl..
+using angle..
+
+'// vertex shader
+const vs_source:="
+attribute vec4 aPosition;
+attribute vec4 aColor;
+varying vec4 fragColor;
+void main() {
+    gl_Position = aPosition;
+    fragColor = aColor;
+}"
+
+'// fragment shader
+const fs_source:="
+precision mediump float;
+varying vec4 fragColor;
+void main() {
+    gl_FragColor = vec4(fragColor.rgb, 1.0);
+}"
+
+'// convert wonkey string to c/c++ const char*
+function cstr:libc.const_char_t Ptr( str:string )
+	local cstr:= new DataBuffer(str.Length+1)
+	str.ToCString(cstr.Data, cstr.Length)
+	local cstrptr:= cast<libc.const_char_t ptr>(cstr.Data) 'mem leak?
+	return cstrptr
+end
+
+'// helper function to set source shader from wonkey string
+function glShaderSourceEx:Void( shader:GLuint,source:string )
+	local n:=source.Length
+	local buf:=cast<byte ptr>( libc.malloc( n+1 ) )
+	for local i:=0 until n
+		buf[i]=source[i]
+	next
+	buf[n]=0
+	
+	local p:=cast<GLchar ptr>( buf )
+	
+	glShaderSource( shader,1,varptr p,null )
+	
+	libc.free( buf )
+end
+
+'// helper function to get shader info log to wonkey string
+function glGetShaderInfoLogEx:string( shader:GLuint )
+	local buf:=new byte[1024],length:GLsizei
+	glGetShaderInfoLog( shader,buf.Length,varptr length,cast<GLchar ptr>( varptr buf[0] ) )
+	return String.FromCString( varptr buf[0] )
+end
+
+'// helper function to get program info log to wonkey string
+function glGetProgramInfoLogEx:String( program:GLuint )
+	local buf:=new byte[1024],length:GLsizei
+	glGetProgramInfoLog( program,buf.Length,varptr length,cast<GLchar ptr>( varptr buf[0] ) )
+	return String.FromCString( varptr buf[0] )
+end
+
+'// helper function to create and compile shader from source
+function createShader:GLuint(type:GLenum, source:string)
+    local sh:= glCreateShader(type)
+    Assert(glGetError() = GL_NO_ERROR, "failed to create shader!")
+    glShaderSourceEx(sh, source)
+    glCompileShader(sh)
+    local compiled:=GL_FALSE
+    glGetShaderiv(sh, GL_COMPILE_STATUS, varptr compiled)
+    if compiled <> GL_TRUE
+        local lines:=source.Split("~n")
+        for local i:=0 until lines.Length
+            print String(i+1).PadLeft(3) + ":~t" + lines[i]
+        next
+    end
+    Assert(compiled = GL_TRUE, "failed to compile shader: " + glGetShaderInfoLogEx(sh))
+    return sh
+end
+
+'// helper function to create and link program from shaders
+function createProgram:GLuint(vs_source:string,  fs_source:string)
+    local vs:=createShader(GL_VERTEX_SHADER, vs_source)
+    local fs:=createShader(GL_FRAGMENT_SHADER, fs_source)
+    local program:= glCreateProgram()
+    Assert(glGetError() = GL_NO_ERROR, "failed to create program!")
+    glAttachShader(program, vs)
+    glAttachShader(program, fs)
+    glLinkProgram(program)
+    local linked:=GL_FALSE
+    glGetProgramiv(program, GL_LINK_STATUS, varptr linked)
+    Assert(linked = GL_TRUE, "faile to link program: " + glGetProgramInfoLogEx(program))
+    glDeleteShader(vs)
+    glDeleteShader(fs)
+    return program
+end
+
+'//-------------------------------
+'// Main function
+'//-------------------------------
+function Main()
+
+    '// select graphics renderer
+    #if __TARGET__="linux"
+        'SDL_setenv("ANGLE_DEFAULT_PLATFORM", "opengl", 1)
+    #elseIf __TARGET__="macos"
+        SDL_setenv("ANGLE_DEFAULT_PLATFORM", "metal", 1)
+    #elseIf __TARGET__="windows"
+        SDL_setenv("ANGLE_DEFAULT_PLATFORM", "d3d11", 1)
+    #end
+
+
+    '// initialize SDL
+    if SDL_Init(SDL_INIT_VIDEO) <> 0
+        print "Could not init SDL: " + String.FromCString(SDL_GetError())
+        return
+    end
+    libc.atexit(SDL_Quit)
+
+    '// setup GLES3
+    SDL_SetHint("SDL_OPENGL_ES_DRIVER", "1")
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES)
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3)
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0)
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1)
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24)
+    SDL_GL_SetAttribute(SDL_GL_BUFFER_SIZE, 32)
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8)
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8)
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8)
+    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8)
+
+    '// create SDL window
+    local window:SDL_Window Ptr = SDL_CreateWindow(
+        "wonkey 2d/3d game engine starter", 
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        600, 600,
+        SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_SHOWN)
+    if not window
+        print "Could not create SDL window: " + String.FromCString(SDL_GetError())
+        return
+    end
+
+    '// create GL context
+    local glcontext:SDL_GLContext = SDL_GL_CreateContext(window)
+    if not glcontext
+        print "Could not create SDL OpenGL context: " + String.FromCString(SDL_GetError())
+        return
+    end
+    SDL_GL_MakeCurrent(window, glcontext)
+    SDL_GL_SetSwapInterval(0)
+
+
+    '// SDL version
+    local version:SDL_version
+    SDL_GetVersion(varptr version)
+    print "SDL Version: " + version.major + "." + version.minor + "." + version.patch
+
+    '// GL version
+    print "GL Vendor: " + String.FromCString(glGetString(GL_VENDOR))
+    print "GL Renderer: " + String.FromCString(glGetString(GL_RENDERER))
+    print "GL Version: " + String.FromCString(glGetString(GL_VERSION))
+    print "GL Shading Language Version: " + String.FromCString(glGetString(GL_RENDERER))
+
+
+    '// simple quad example
+    local program:=createProgram(vs_source, fs_source)
+    local aPosition := glGetAttribLocation(program, "aPosition")
+    Assert(aPosition >= 0, "failed to get program attribute location!")
+    local aColor := glGetAttribLocation(program, "aColor")
+    Assert(aColor >= 0, "failed to get program attribute location!")
+
+    local vertices:= new Float[](
+        -0.5, -0.5, '// bottom-left
+        +0.5, -0.5, '// bottom-right
+        -0.5, +0.5, '// top-left
+        +0.5, -0.5, '// bottom-right
+        -0.5, +0.5, '// top-left
+        +0.5, +0.5) '// top-right
+
+    local colors:= new Float[](
+        1.0, 0.0, 0.0, '// bottom-left
+        0.0, 1.0, 0.0, '// bottom-right
+        0.0, 0.0, 1.0, '// top-left
+        0.0, 1.0, 0.0, '// bottom-right
+        0.0, 0.0, 1.0, '// top-left
+        1.0, 0.0, 1.0) '// top-right
+
+    '//------------------------
+    '// main loop
+    '//------------------------
+    local running:= true
+    while running
+
+        '// event loop
+        local e:SDL_Event
+        while SDL_PollEvent(varptr e)
+            select e.type
+                case SDL_QUIT
+                    running = false
+                case SDL_KEYDOWN
+                    select e.key.keysym.sym
+                        case SDLK_ESCAPE
+                            running = false
+                    end
+            end
+        wend
+
+        '// render
+        glViewport(0, 0, 600, 600)
+        glClearColor(0.12, 0.12, 0.2, 1.0)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT)
+
+        glUseProgram(program)
+        glVertexAttribPointer(aPosition, 2, GL_FLOAT, GL_FALSE, 0, vertices.Data)
+        glEnableVertexAttribArray(aPosition)
+        glVertexAttribPointer(aColor, 3, GL_FLOAT, GL_FALSE, 0, colors.Data)
+        glEnableVertexAttribArray(aColor)
+        glDrawArrays(GL_TRIANGLES, 0, 6)
+        glFlush()
+
+        '// swap
+        SDL_GL_SwapWindow(window)
+    wend
+    
+
+    '// destroy all resources
+    SDL_GL_DeleteContext(glcontext)
+    SDL_DestroyWindow(window)
+end

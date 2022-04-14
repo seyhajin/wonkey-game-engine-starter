@@ -1,0 +1,150 @@
+Processing:./include\KHR/khrplatform.h
+Processing:include/GLES3/gl3.h
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, GLuint, const GLchar *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLsizeiptr, const void *, GLenum)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLintptr, GLsizeiptr, const void *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLint, GLenum, GLsizei, GLsizei, GLint, GLsizei, const void *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLint, GLint, GLint, GLsizei, GLsizei, GLenum, GLsizei, const void *)
+***** Warning - function pointer type has const* parameters *****
+void (GLsizei, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLsizei, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLsizei, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLsizei, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLsizei, GLenum, const void *)
+***** Warning - function pointer type has const* parameters *****
+GLint (GLuint, const GLchar *)
+***** Warning - function pointer type has const* parameters *****
+GLint (GLuint, const GLchar *)
+***** Warning - function pointer type has const* parameters *****
+void (GLsizei, const GLuint *, GLenum, const void *, GLsizei)
+***** Warning - function pointer type has const* parameters *****
+void (GLsizei, const GLuint *, GLenum, const void *, GLsizei)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, GLsizei, const GLchar *const *, const GLint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, GLsizei, const GLchar *const *, const GLint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLint, GLint, GLsizei, GLsizei, GLint, GLenum, GLenum, const void *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLenum, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLenum, const GLint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLint, GLint, GLint, GLsizei, GLsizei, GLenum, GLenum, const void *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, const GLint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, const GLint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, const GLint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, const GLint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, GLboolean, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, GLboolean, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, GLboolean, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, GLint, GLenum, GLboolean, GLsizei, const void *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLuint, GLuint, GLsizei, GLenum, const void *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLint, GLint, GLsizei, GLsizei, GLsizei, GLint, GLenum, GLenum, const void *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei, GLenum, GLenum, const void *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLint, GLenum, GLsizei, GLsizei, GLsizei, GLint, GLsizei, const void *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei, GLenum, GLsizei, const void *)
+***** Warning - function pointer type has const* parameters *****
+void (GLsizei, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLsizei, const GLenum *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, GLboolean, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, GLboolean, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, GLboolean, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, GLboolean, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, GLboolean, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, GLboolean, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLsizei, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, GLsizei, const GLchar *const *, GLenum)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, GLint, GLenum, GLsizei, const void *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, const GLint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+GLint (GLuint, const GLchar *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLint, GLsizei, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLint, const GLint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLint, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLint, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, GLsizei, const GLchar *const *, GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, GLsizei, const GLuint *, GLenum, GLint *)
+***** Warning - function pointer type has const* parameters *****
+GLuint (GLuint, const GLchar *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLsizei, GLenum, const void *, GLsizei)
+***** Warning - function pointer type has const* parameters *****
+void (GLsizei, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, GLenum, const GLint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, GLenum, const GLfloat *)
+***** Warning - function pointer type has const* parameters *****
+void (GLsizei, const GLuint *)
+***** Warning - function pointer type has const* parameters *****
+void (GLuint, GLenum, const void *, GLsizei)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLsizei, const GLenum *)
+***** Warning - function pointer type has const* parameters *****
+void (GLenum, GLsizei, const GLenum *, GLint, GLint, GLsizei, GLsizei)
+
+c2mx2: **** Success ***** - output saved to angle.wx
