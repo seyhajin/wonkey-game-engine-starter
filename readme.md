@@ -9,11 +9,13 @@ A Wonkey 2d/3D game engine starter project using SDL2 and ANGLE statically linke
 ## Features
 
 - Standalone executable
-- Agnostic graphics renderer using OpenGLES3 API, thanks to ANGLE
-    - Linux : OpenGL
-    - MacOS : Metal
-    - Windows : D3D11
-- Cross platforms
+- Multi-platform targets
+- Agnostic graphics renderer using OpenGLES 3 API, thanks to ANGLE
+    - [ ] Linux : OpenGL
+    - [X] MacOS : Metal
+    - [ ] Windows : D3D11
+    - [ ] Emscripten (Web) : WebGL2
+- Self-contained and few dependencies with Wonkey modules: only use `libc` and `std` modules
 
 ## Install
 
@@ -26,6 +28,8 @@ git clone http://github.com/seyhajin/wonkey-game-engine-starter
 ```
 
 ### Install all dependencies:
+
+Sequence of installation scripts :
 
 ```
 install = setup -> sync -> build -> copy
@@ -90,3 +94,26 @@ $ clang++ -std=c++14 ./src/hello.cc -o ./src/hello -I./native/include -L./native
 
 - [sdl2](https://github.com/libsdl-org/SDL)
 - [angle](https://github.com/google/angle)
+
+## TODO
+
+*random ideas, no specific order.*
+
+- [ ] Checking out dependencies from defined commit hash
+    - [ ] Accordingly update dependency sources patches
+    - [ ] Accordingly update dependency Wonkey 'extern' translations
+- [ ] Prebuilded static libraries: EGL, SDL
+    - Desktop targets
+        - [ ] Linux
+        - [X] MacOS
+        - [ ] Windows
+    - Web target
+        - [ ] Emscripten
+    - Mobile targets *(maybe in the future)*
+        - [ ] Android
+        - [ ] iOS
+- [ ] Build `hello` sample on all platform targets
+- [ ] Update gradually GLES API to 3.1 and 3.2
+- [ ] Add more Wonkey GLES examples
+- [ ] Create an easy-to-use game engine like Blitz3D
+
